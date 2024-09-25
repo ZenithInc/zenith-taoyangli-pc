@@ -1,4 +1,4 @@
-FROM hyperf/hyperf:8.0-alpine-v3.15-swoole
+FROM ontuotu-docker.pkg.coding.net/taoyangli/base/hyperf/hyperf:8.0-alpine-v3.15-swoole
 
 LABEL maintainer="douya" version="1.0"
 
@@ -21,7 +21,7 @@ RUN set -ex \
     && rm -rf /var/cache/apk/* /tmp/* /usr/share/man \
     && echo -e "\033[42;37m Build Completed :).\033[0m\n"
 
-COPY ./ /data/project
+COPY ./typcapi.taoyangli.cn /data/project
 
 WORKDIR /data/project
 
