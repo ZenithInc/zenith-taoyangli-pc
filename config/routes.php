@@ -55,4 +55,4 @@ Router::addGroup('', function () {
         Router::post('/category', 'App\Controller\WebSite\VenueController@categoryList');
     });
     Router::post('/search', 'App\Controller\WebSite\SearchController@getList');
-}, ['middleware' => [PassportCustomAuth::class]]);
+}, ['middleware' => []]);
