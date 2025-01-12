@@ -46,7 +46,16 @@ class ArticleService extends BaseService
         if($title){
             $where[] = ['title','locate',$title];
         }
-        $informationAll = $this->websiteArticleRepository->getList($where,$page,$limit,'iforder desc,sort asc,sort_uptime desc,push_time desc,id desc',['id','title','title_en','title_jap','title_korea','pic','link','type','push_time','sort','dateline','uptime','content','content_en','content_jap','content_korea',Db::raw('if (sort>0,1,0) AS iforder')]);
+        $columns = ['id','title','title_en','title_jap','title_korea','pic','link','type','push_time','sort','dateline',
+            'uptime','content','content_en','content_jap','content_korea',Db::raw('if (sort>0,1,0) AS iforder'),
+            'business_hours', 'description', 'contract_phone', 'precautions'];
+        $informationAll = $this->websiteArticleRepository->getList(
+            $where,
+            $page,
+            $limit,
+            'iforder desc,sort asc,sort_uptime desc,push_time desc,id desc',
+            $columns
+        );
         if(!empty($informationAll['list'])){
             foreach ($informationAll['list'] as &$value){
                 $value['push_time'] = date('Y-m-d',$value['push_time']);
