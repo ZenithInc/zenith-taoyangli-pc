@@ -52,7 +52,7 @@ class NoticeService extends BaseService
         if ($title) {
             $where[] = ['title', 'locate', $title];
         }
-        $noticeAll = $this->websiteNoticeRepository->getList($where, $page, $limit, 'iforder desc,sort asc,sort_uptime desc,id desc', ['id', 'title', 'title_en', 'title_jap', 'title_korea', 'link', 'dateline', 'sort', 'sort_uptime', 'content', Db::raw('if (sort>0,1,0) AS iforder')]);
+        $noticeAll = $this->websiteNoticeRepository->getList($where, $page, $limit, 'iforder desc,sort asc,sort_uptime desc,id desc', ['id', 'title', 'title_en', 'title_jap', 'title_korea', 'link', 'pic', 'dateline', 'sort', 'sort_uptime', 'content', Db::raw('if (sort>0,1,0) AS iforder')]);
         if ( !empty($noticeAll['list'])) {
             foreach ($noticeAll['list'] as &$value) {
                 $value['dateline'] = date('Y-m-d H:i:s', $value['dateline']);
