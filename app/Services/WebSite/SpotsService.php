@@ -50,10 +50,6 @@ class SpotsService extends BaseService
         if (!empty($noticeAll['list'])) {
             foreach ($noticeAll['list'] as &$value) {
                 $value['push_time'] = date('Y-m-d', $value['push_time']);
-                $value['content'] = stringToText($value['content'],100);
-                $value['content_en'] = stringToText($value['content_en'],100);
-                $value['content_jap'] = stringToText($value['content_jap'],100);
-                $value['content_korea'] = stringToText($value['content_korea'],100);
             }
         }
         return $this->baseSucceed('获取成功', $noticeAll);
