@@ -58,7 +58,7 @@ class NoticeService extends BaseService
                 $value['dateline'] = date('Y-m-d H:i:s', $value['dateline']);
                 $value['start'] = !empty($value['start']) ? date('Y-m-d H:i:s', $value['start']) : '';
                 $value['end'] = !empty($value['end']) ? date('Y-m-d H:i:s', $value['end']) : '';
-                $value['time'] = !empty($value['time']) ? date('Y-m-d H:i:s', $value['time']) : '';
+                $value['time'] = !empty($value['time']) ? date('Y-m-d', $value['time']) : '';
             }
         }
         return $this->baseSucceed('获取成功', $noticeAll);
