@@ -10,5 +10,5 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
-//    \Hyperf\Contract\StdoutLoggerInterface::class => \App\Core\Common\Facade\StdoutLoggerFactory::class,
+    Hyperf\Contract\StdoutLoggerInterface::class => App\Core\Common\Facade\StdoutLoggerFactory::class,
 ];

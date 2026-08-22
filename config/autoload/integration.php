@@ -1,17 +1,17 @@
 <?php
 return [
     'invoice' => [
-        'host' => 'http://117.40.195.43:29763',
+        'host' => env('INVOICE_HOST'),
     ],
     'passowner' => [
-        'url' => 'https://api.taoyangli.cn',
-//        'applicationId' => 'b824188dea894a38b4c97516639cbfe1',
-//        'appKey' => 'de9d6f1fa10826f2ca502633693f9fb4',
-//        'appSecret' => '87b04de91d36c1e10b351b6a61580953',
-        'applicationId' => '12620936824811ee8c0984a93e086e68',//正式
-        'appKey' => '67ba1719727fbb6eaffe7f4fbae2683d',
-        'appSecret' => 'fd0bf74d71df227aac9833ab614a807a',
-        'username' => '15267133680',
+        'url' => env('PASSOWNER_URL'),
+//        'applicationId' => env('PASSOWNER_APPLICATION_ID'),
+//        'appKey' => env('PASSOWNER_APP_KEY'),
+//        'appSecret' => env('PASSOWNER_APP_SECRET'),
+        'applicationId' => env('PASSOWNER_APPLICATION_ID'),//正式
+        'appKey' => env('PASSOWNER_APP_KEY'),
+        'appSecret' => env('PASSOWNER_APP_SECRET'),
+        'username' => env('PASSOWNER_USERNAME'),
         'ticket_send' => [
             'formheaduuid' => '02ea5b76c00343fba24857af9d523dcd', //表名
             'fields' => ['status'=>'3drc7kkwfefuts7u','remark'=>'gscy30xexqftjokq','verification_code'=>'fes3ppiyuoo61pza'],

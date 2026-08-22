@@ -1678,7 +1678,7 @@ function getImageClassify($token, $img, $num = 2)
     $image = $img ?? '';
     if ($image && $token) {
         try {
-            $url = 'https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general?access_token='.$token;
+            $url = config('external_api.baidu_image_classify_url').'?access_token='.$token;
             if ( !preg_match("/data:(.*?);base64,(.*?)$/si", $image)) {
                 $image = file_get_contents($image);
                 $image = base64_encode($image);
@@ -2146,11 +2146,11 @@ function getBusinessLicenseInfo($image)
     try {
         $image_url = empty($image) ? '' : $image;
         //API产品路径
-        $host = "http://blicence.market.alicloudapi.com";
-        $path = "/ai_business_license";
+        $host = config('business_license_api.host');
+        $path = config('business_license_api.path');
         $method = "POST";
+        $appcode = config('business_license_api.app_code');
         //阿里云APPCODE
-        $appcode = "63a2e8903b0b4ad391d00dbc78679117";
         $headers = [];
         array_push($headers, "Authorization:APPCODE ".$appcode);
         array_push($headers, "Content-Type".":"."application/x-www-form-urlencoded; charset=UTF-8");
@@ -2164,7 +2164,7 @@ function getBusinessLicenseInfo($image)
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 3);  //只需要设置一个秒的数量就可以
+        curl_setopt($curl, CURLOPT_TIMEOUT, config('business_license_api.timeout'));
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_FAILONERROR, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -2407,7 +2407,7 @@ function getGaodeLocationInfo($params)
         $params['poitype'] = $params['poitype'] ?? '';
         $params['roadlevel'] = $params['roadlevel'] ?? 1;//可选值：1，当roadlevel=1时，过滤非主干道路，仅输出主干道路数据
         try {
-            $url = 'https://restapi.amap.com/v3/geocode/regeo';
+            $url = config('external_api.amap_regeocode_url');
             $url = $url.'?'.http_build_query($params);
             $return = curlHttp($url, '', '');
             if ( !empty($return) && $return['code'] == 200) {
@@ -2445,7 +2445,7 @@ function getGaodePlaceAroundInfo($params)
         $params['types'] = $params['types'] ?? '';//查询POI类型
         $params['sortrule'] = $params['sortrule'] ?? 'distance';//规定返回结果的排序规则。按距离排序：distance；综合排序：weight
         try {
-            $url = 'https://restapi.amap.com/v3/place/around';
+            $url = config('external_api.amap_place_around_url');
             $url = $url.'?'.http_build_query($params);
             $return = curlHttp($url, '', '');
             if ( !empty($return) && $return['code'] == 200) {
@@ -2478,7 +2478,7 @@ function getGaodeCodes($params)
         $params['address'] = $params['address'] ?? '';//结构化地址信息:省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码
         $params['city'] = $params['city'] ?? '';//查询城市，可选：城市中文、中文全拼、citycode、adcode
         try {
-            $url = 'https://restapi.amap.com/v3/geocode/geo';
+            $url = config('external_api.amap_geocode_url');
             $url = $url.'?'.http_build_query($params);
             $return = curlHttp($url, '', '');
             if ( !empty($return) && $return['code'] == 200) {
@@ -3295,7 +3295,7 @@ function getImageCensor($token, $img)
     $image = $img ?? '';
     if ($image && $token) {
         try {
-            $url = 'https://aip.baidubce.com/rest/2.0/solution/v1/img_censor/v2/user_defined?access_token='.$token;
+            $url = config('external_api.baidu_image_censor_url').'?access_token='.$token;
             if ( !preg_match("/data:(.*?);base64,(.*?)$/si", $image)) {
                 $image = file_get_contents($image);
                 $image = base64_encode($image);

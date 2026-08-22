@@ -1,0 +1,49 @@
+image:
+  repository: registry.taoyangli.cn/taoyangli/pc
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: harbor-pull
+runtimeSecretName: ""
+revisionHistoryLimit: 3
+
+http:
+  replicas: 1
+  terminationGracePeriodSeconds: 60
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+service:
+  httpPort: 9501
+
+ingress:
+  enabled: true
+  className: traefik
+  host: pc.internal.taoyangli
+  publicPrefix: /typc
+
+probes:
+  startup: {periodSeconds: 2, timeoutSeconds: 2, failureThreshold: 45}
+  readiness: {periodSeconds: 10, timeoutSeconds: 2, failureThreshold: 3}
+  liveness: {periodSeconds: 20, timeoutSeconds: 2, failureThreshold: 3}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  fsGroupChangePolicy: OnRootMismatch
+  seccompProfile: {type: RuntimeDefault}
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: [ALL]

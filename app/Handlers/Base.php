@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Handlers;
+use App\Support\LogSanitizer;
 use App\Traits\BaseResultTrait;
 use App\Repositories\ExternalLogRepository;
 use Hyperf\Di\Annotation\Inject;
@@ -84,12 +85,8 @@ class Base
      */
     public function createLog($method,$url,$require,$require_time,$response)
     {
-        $this->externalLogRepository->createDo([
-            'method' => $method,
-            'url' => $url,
-            'require' => is_array($require) ? json_encode($require,JSON_UNESCAPED_UNICODE) : $require,
-            'require_time' => $require_time,
-            'response' => is_array($response) ? json_encode($response,JSON_UNESCAPED_UNICODE) : $response,
-        ]);
+        $this->externalLogRepository->createDo(
+            LogSanitizer::externalLogRecord($method, $url, $require, $require_time, $response)
+        );
     }
 }

@@ -1,0 +1,2 @@
+Internal Host: {{ .Values.ingress.host }}
+The edge Nginx remains the sole owner of the public /typc/ route.

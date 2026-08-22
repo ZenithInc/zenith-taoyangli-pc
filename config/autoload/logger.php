@@ -11,16 +11,26 @@ declare(strict_types=1);
  */
 
 $logDir = rtrim(env('LOG_DIR', BASE_PATH . '/runtime'), '/') . '/logs';
-$driver = env('LOG_DRIVER', 'file');
+$driver = env('LOG_DRIVER', 'stdout');
 $handlers = [];
 $formatter = [
-    'class' => Monolog\Formatter\LineFormatter::class,
+    'class' => App\Logging\OpsJsonFormatter::class,
     'constructor' => [
-        'format' => "%datetime%||%channel%||%level_name%||%message%||%context%||%extra%\n",
-        'dateFormat' => 'Y-m-d H:i:s',
-        'allowInlineLineBreaks' => true,
+        'batchMode' => Monolog\Formatter\JsonFormatter::BATCH_MODE_JSON,
+        'appendNewline' => true,
     ],
 ];
+
+if ($driver === 'stdout') {
+    $handlers = [[
+        'class' => Monolog\Handler\StreamHandler::class,
+        'constructor' => [
+            'stream' => 'php://stdout',
+            'level' => Monolog\Logger::DEBUG,
+        ],
+        'formatter' => $formatter,
+    ]];
+}
 
 if ($driver == 'file') {
     $handlers = [

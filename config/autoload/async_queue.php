@@ -8,7 +8,7 @@ return [
         'redis' => [
             'pool' => 'default'
         ],
-        'channel' => env('APP_NAME', '').'job',
+        'channel' => env('APP_NAME').'job',
         'timeout' => 10,
         'retry_seconds' => 5,
         'handle_timeout' => 10,

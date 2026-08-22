@@ -45,7 +45,6 @@ class PassportCustomAuth implements MiddlewareInterface
         if ( !empty($secretToken) && !empty($signToken) && ( !empty($appId) && $appId === config('client_app_id'))) {
             if (strpos($secretToken, '|')) {
                 [$secret, $timestamp] = explode('|', $secretToken);
-                //file_put_contents(storage_path('logs/sign.log'),'secretToken='.$secretToken.'___secret='.$secret.'__timestamp='.$timestamp.'__client_app_secret='.config('app.client_app_secret').'__md5(client_app_secret+timestamp)='.md5(config('app.client_app_secret') . $timestamp)."__4"."\r\n",FILE_APPEND);
 
                 //               if ($signToken === $sign && $secret === md5(config('app.client_app_secret') . $timestamp)) {
                 if ($secret === md5(config('client_app_secret').$timestamp)) {

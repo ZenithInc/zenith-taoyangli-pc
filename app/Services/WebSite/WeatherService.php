@@ -404,7 +404,7 @@ class WeatherService extends BaseService
         $headers = array();
         array_push($headers, "Authorization:APPCODE ".$appcode);
         array_push($headers, "Content-Type".":"."application/x-www-form-urlencoded; charset=UTF-8");
-        $host = "http://aliv18.data.moji.com";//墨迹天气（专业版气象服务（cityid）-墨迹天气）
+        $host = $alyunapi['base_url'];
         $path = "/whapi/json/alicityweather/".$PartApiName;
         $querys = "cityId=".$cityid;
         $url = $host.$path;

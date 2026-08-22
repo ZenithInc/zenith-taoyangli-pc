@@ -1,5 +1,5 @@
 <?php
-return [
-    // 是否开启定时任务
-    'enable' => false,
-];
+
+declare(strict_types=1);
+
+return ['enable' => false];

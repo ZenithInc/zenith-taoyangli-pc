@@ -11,8 +11,13 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
+use App\Controller\Internal\HealthController;
 use Hyperf\HttpServer\Router\Router;
 use App\Middleware\PassportCustomAuth;
+
+Router::get('/healthz', [HealthController::class, 'live']);
+Router::get('/readyz', [HealthController::class, 'ready']);
+Router::get('/internal/dependencyz', [HealthController::class, 'dependencies']);
 
 Router::addGroup('', function () {
     Router::addGroup('/advertise', function () { //广告

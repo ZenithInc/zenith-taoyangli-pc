@@ -7,8 +7,9 @@
  */
 return [
     'moji'=>[
-        'appkey'=>'24563389',
-        'appsecret'=>'6ded508d582a8b8ae76da36572b0e09b',
-        'appcode'=>'63a2e8903b0b4ad391d00dbc78679117'
+        'base_url'=>rtrim((string) env('WEATHER_MOJI_API_BASE_URL'), '/'),
+        'appkey'=>env('WEATHER_MOJI_APP_KEY'),
+        'appsecret'=>env('WEATHER_MOJI_APP_SECRET'),
+        'appcode'=>env('WEATHER_MOJI_APP_CODE')
     ]
 ];

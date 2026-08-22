@@ -37,7 +37,7 @@ return [
                 'name'    => $name,
                 'service' => $interface,
                 'nodes'   => [// alpha 47.111.13.130 9531
-                              ['host' => env('rpc_node_host', 'host.docker.internal'), 'port' => (int) env('rpc_node_port', '9525')],
+                              ['host' => env('rpc_node_host'), 'port' => (int) env('rpc_node_port')],
                 ],
                 'options' => [
                     'connect_timeout' => 5.0,

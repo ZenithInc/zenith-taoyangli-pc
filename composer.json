@@ -86,6 +86,7 @@
             "rm -rf runtime/container"
         ],
         "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
+        "test:migration": "phpunit -c phpunit.xml --bootstrap test/migration-bootstrap.php --colors=always test/Cases/MigrationSafetyTest.php",
         "cs-fix": "php-cs-fixer fix $1",
         "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./app ./config",
         "start": [
