@@ -59,7 +59,6 @@ class VenueController extends BaseController
     public function categoryList()
     {
         $requestData = $this->request->all();
-        $requestData['is_admin'] = 1;
         $result = $this->venueService->categoryList($requestData);
         if (empty($result['status']) || $result['status'] !== 'success') {
             return $this->failed($result['message'] ?? '', $result['data'] ?? 600);
@@ -164,6 +163,10 @@ class VenueController extends BaseController
         $totalNum = $freeSpaceNum = $free_charging_num = 0;
 
         $category = $this->venueCategoryRepository->getInfo($categoryId);
+        if (empty($category['id']) || ($category['is_enabled'] ?? 0) != 1
+            || ($category['is_deleted'] ?? 1) != 0) {
+            return $this->failed('类型不存在或已停用', 600);
+        }
         if ( !empty($category['is_admin'])) {
             if ($categoryId == 1001) {
                 // 景点
@@ -189,7 +192,11 @@ class VenueController extends BaseController
                 $table = 'venueRepository';
             }
             $rowTmp = $this->{$table}->getInfo($id);
-            if (empty($rowTmp['id']) || $rowTmp['is_deleted'] == 1) {
+            if (empty($rowTmp['id']) || $rowTmp['is_deleted'] == 1 || ($rowTmp['is_enabled'] ?? 0) != 1) {
+                return $this->failed('不存在或已被删除');
+            }
+            if (($categoryId == 1002 && ($rowTmp['type'] ?? 0) != 4)
+                || ($categoryId == 1003 && ($rowTmp['type'] ?? 0) != 2)) {
                 return $this->failed('不存在或已被删除');
             }
             $rowTmp['category_name'] = $category['name'] ?? '';

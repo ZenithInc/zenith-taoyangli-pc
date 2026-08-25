@@ -39,6 +39,8 @@ class SearchService extends BaseService
                 $list = $this->websiteNoticeRepository->getList([
                     ['is_deleted', '=', 0],
                     ['is_enabled', '=', 1],
+                    ['start', '<=', time()],
+                    ['end', '>=', time()],
                     ['or', [
                         ['title', 'locate', $keyword],
                         ['title_en', 'locate', $keyword],
@@ -84,6 +86,7 @@ class SearchService extends BaseService
             } elseif ($type == 4) {
                 $list = $this->websiteArticleRepository->getList([
                     ['is_deleted', '=', 0],
+                    ['is_enabled', '=', 1],
                     ['or', [
                         ['title', 'locate', $keyword],
                         ['title_en', 'locate', $keyword],
@@ -94,6 +97,7 @@ class SearchService extends BaseService
             } elseif ($type == 5) {
                 $list = $this->websiteSpotsRepository->getList([
                     ['is_deleted', '=', 0],
+                    ['is_enabled', '=', 1],
                     ['or', [
                         ['title', 'locate', $keyword],
                         ['title_en', 'locate', $keyword],
@@ -117,6 +121,8 @@ class SearchService extends BaseService
             $noticeAll = $this->websiteNoticeRepository->getList([
                 ['is_deleted', '=', 0],
                 ['is_enabled', '=', 1],
+                ['start', '<=', time()],
+                ['end', '>=', time()],
                 ['or', [
                     ['title', 'locate', $keyword],
                     ['title_en', 'locate', $keyword],
@@ -149,6 +155,7 @@ class SearchService extends BaseService
             }
             $aritcleAll = $this->websiteArticleRepository->getList([
                 ['is_deleted', '=', 0],
+                ['is_enabled', '=', 1],
                 ['or', [
                     ['title', 'locate', $keyword],
                     ['title_en', 'locate', $keyword],
@@ -158,6 +165,7 @@ class SearchService extends BaseService
             ], '', '', 'id desc', ['id', Db::raw('type as c_type'),'link', 'title', 'title_en', 'title_jap', 'title_korea',Db::raw('4 as type')]);
             $spotsAll = $this->websiteSpotsRepository->getList([
                 ['is_deleted', '=', 0],
+                ['is_enabled', '=', 1],
                 ['or', [
                     ['title', 'locate', $keyword],
                     ['title_en', 'locate', $keyword],

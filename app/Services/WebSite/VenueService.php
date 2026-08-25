@@ -22,20 +22,10 @@ class VenueService extends BaseService
         $name = $param['name'] ?? '';
         $page = $param['page'] ?? 1;
         $limit = $param['limit'] ?? 10;
-        $is_admin = $param['is_admin'] ?? 0;
         $where = [
             ['is_enabled', '=', 1],
+            ['is_deleted', '=', 0],
         ];
-        if ($is_admin) {
-            $where[] = [
-                'OR', [
-                    ['is_admin', '=', 1],
-                    ['is_deleted', '=', 0],
-                ],
-            ];
-        } else {
-            $where[] = ['is_deleted', '=', 0];
-        }
         if ($name) {
             $where[] = ['name', 'locate', $name];
         }
@@ -54,10 +44,17 @@ class VenueService extends BaseService
     {
         $id = intval($param['id'] ?? 0);
         $row = $this->venueRepository->getInfo($id);
-        if (empty($row['id']) || $row['is_deleted'] != 0) {
+        if (empty($row['id']) || $row['is_deleted'] != 0 || $row['is_enabled'] != 1) {
             return $this->baseFailed('不存在或已被删除', 600);
         }
-        $category = $this->venueCategoryRepository->getInfo($row['category_id'] ?? 0);
+        $category = $this->venueCategoryRepository->findOneWhere([
+            ['id', '=', $row['category_id'] ?? 0],
+            ['is_deleted', '=', 0],
+            ['is_enabled', '=', 1],
+        ]);
+        if (empty($category)) {
+            return $this->baseFailed('不存在或已被删除', 600);
+        }
         $row['category_name'] = $category['name'] ?? '';
         $row['category_pic'] = $category['pic'] ?? '';
         $row['category_pic_click'] = $category['pic_click'] ?? '';
@@ -93,6 +90,8 @@ class VenueService extends BaseService
             $categoryIds = array_column($list['list'], 'category_id');
             $categoryList = $this->venueCategoryRepository->getList([
                 ['id', 'in', $categoryIds],
+                ['is_deleted', '=', 0],
+                ['is_enabled', '=', 1],
             ], '', '', '', ['id', 'name', 'pic', 'pic_noclick', 'pic_click']);
             $categoryAll = array_column($categoryList['list'] ?? [], null, 'id');
             foreach ($list['list'] as &$value) {

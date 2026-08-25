@@ -22,7 +22,14 @@ class NoticeService extends BaseService
     {
         $id = $param['id'] ?? 0;
         $row = $this->websiteNoticeRepository->getInfo($id);
-        if (empty($row) || $row['is_deleted'] == 1) {
+        $time = time();
+        if (
+            empty($row)
+            || $row['is_deleted'] == 1
+            || $row['is_enabled'] != 1
+            || $row['start'] > $time
+            || $row['end'] < $time
+        ) {
             return $this->baseFailed('不存在或已被删除');
         }
         $row['start'] = !empty($row['start']) ? date('Y-m-d H:i:s', $row['start']) : '';

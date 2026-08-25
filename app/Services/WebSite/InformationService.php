@@ -22,7 +22,7 @@ class InformationService extends BaseService
     {
         $id = $param['id'] ?? 0;
         $row = $this->websiteInformationRepository->getInfo($id);
-        if (empty($row) || $row['is_deleted'] == 1) {
+        if (empty($row) || $row['is_deleted'] == 1 || $row['is_enabled'] != 1) {
             return $this->baseFailed('不存在或已被删除');
         }
         $row['push_time'] = !empty($row['push_time']) ? date('Y-m-d', $row['push_time']) : '';

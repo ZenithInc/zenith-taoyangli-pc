@@ -43,11 +43,12 @@ class PassportCustomAuth implements MiddlewareInterface
         $signToken = $this->request->header('sign-token') ?? '';
         $appId = $this->request->header('app-id') ?? '';
         if ( !empty($secretToken) && !empty($signToken) && ( !empty($appId) && $appId === config('client_app_id'))) {
-            if (strpos($secretToken, '|')) {
-                [$secret, $timestamp] = explode('|', $secretToken);
-
-                //               if ($signToken === $sign && $secret === md5(config('app.client_app_secret') . $timestamp)) {
-                if ($secret === md5(config('client_app_secret').$timestamp)) {
+            if (strpos($secretToken, '|') !== false) {
+                [$secret, $timestamp] = explode('|', $secretToken, 2);
+                $timestamp = (int) $timestamp;
+                $expected = md5(config('client_app_secret').$timestamp);
+                if ($timestamp > 0 && $timestamp <= time() + 60 && time() - $timestamp <= 600
+                    && hash_equals($expected, $secret)) {
                     return $handler->handle($request);
                 }
             }
