@@ -1,4 +1,6 @@
-FROM hyperf/hyperf:8.0-alpine-v3.15-swoole-v5@sha256:5ca7b63a998dcf5282cbc5e41d93eb89217321e7033d4bf611483938b111b5a2
+ARG PHP_RUNTIME_IMAGE=registry.taoyangli.cn/taoyangli/php80-security:6847cec66699ef1bc46276bb48dada7d77b3801c@sha256:80992d1d59715c463615c1a42c930e1d08f5e0ca61de1f43d69603f9b74d7640
+FROM ${PHP_RUNTIME_IMAGE}
+RUN php /usr/local/lib/php-runtime-check.php
 
 ARG VCS_REF
 LABEL org.opencontainers.image.title="taoyangli-pc" \
@@ -38,4 +40,4 @@ EXPOSE 9501
 STOPSIGNAL SIGTERM
 HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
     CMD wget -q -T 3 --header='X-Taoyangli-Internal-Probe: 1' -O - http://127.0.0.1:9501/healthz >/dev/null || exit 1
-ENTRYPOINT ["php", "/data/project/bin/hyperf.php", "start"]
+ENTRYPOINT ["/usr/local/bin/php-security-entrypoint", "php", "/data/project/bin/hyperf.php", "start"]
